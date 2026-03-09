@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { usePurchaseOrderStore } from "@/store/purchaseOrderStore";
 import { downloadCSV } from "@/lib/csv";
 import { PurchaseOrder, PurchaseOrderStatus } from "@/types";
@@ -42,6 +42,13 @@ export function PurchaseOrderTable() {
   const selectedStatus = usePurchaseOrderStore((s) => s.selectedStatus);
   const setSelectedStatus = usePurchaseOrderStore((s) => s.setSelectedStatus);
   const orders = usePurchaseOrderStore((s) => s.orders);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 탭 전환 시 스크롤 리셋: DOM 업데이트 후 실행해 브라우저 scroll anchoring 우회
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [selectedStatus]);
 
   const filtered = useMemo(
     () => getFilteredOrders(),
@@ -107,7 +114,7 @@ export function PurchaseOrderTable() {
       </div>
 
       {/* 행 */}
-      <div className="divide-y dark:divide-zinc-800 max-h-[400px] overflow-y-auto">
+      <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-100 overflow-y-auto">
         {filtered.map((order) => (
           <PurchaseOrderRow key={order.id} order={order} />
         ))}

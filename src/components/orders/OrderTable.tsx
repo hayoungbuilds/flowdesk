@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo, useState, useCallback, useEffect, useRef } from "react";
+import { memo, useMemo, useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useOrderStore } from "@/store/orderStore";
 import { StatusBadge } from "./StatusBadge";
@@ -55,14 +55,17 @@ export function OrderTable() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 탭 전환 시 스크롤 리셋: DOM 업데이트 후 실행해 브라우저 scroll anchoring 우회
+  useLayoutEffect(() => {
+    setScrollTop(0);
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [selectedStatus]);
+
   // 스토어 → URL 동기화: 필터 변경 시 URL도 함께 업데이트 (북마크·공유 가능)
   // router.replace는 debounce 처리해 연속 탭 클릭 시 과도한 navigation 방지
   const handleStatusChange = useCallback(
     (status: OrderStatus | "ALL") => {
       setSelectedStatus(status);
-      // 탭 전환 시 스크롤 처음으로 초기화
-      setScrollTop(0);
-      if (scrollRef.current) scrollRef.current.scrollTop = 0;
 
       if (replaceTimerRef.current) clearTimeout(replaceTimerRef.current);
       replaceTimerRef.current = setTimeout(() => {

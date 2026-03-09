@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useZoneStore } from "@/store/zoneStore";
 import { downloadCSV } from "@/lib/csv";
 import { Delivery, DeliveryStatus, ZoneRegion } from "@/types";
@@ -41,6 +41,13 @@ export function DeliveryTable() {
   const selectedRegion = useZoneStore((s) => s.selectedRegion);
   const setSelectedRegion = useZoneStore((s) => s.setSelectedRegion);
   const deliveries = useZoneStore((s) => s.deliveries);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 탭 전환 시 스크롤 리셋: DOM 업데이트 후 실행해 브라우저 scroll anchoring 우회
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [selectedRegion]);
 
   const filtered = useMemo(
     () => getFilteredDeliveries(),
@@ -105,7 +112,7 @@ export function DeliveryTable() {
       </div>
 
       {/* 행 */}
-      <div className="divide-y dark:divide-zinc-800 max-h-[380px] overflow-y-auto">
+      <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-95 overflow-y-auto">
         {filtered.map((d) => (
           <DeliveryRow key={d.id} delivery={d} />
         ))}

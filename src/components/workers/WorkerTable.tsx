@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { useWorkerStore } from "@/store/workerStore";
@@ -73,10 +73,14 @@ export function WorkerTable() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 탭 전환 시 스크롤 리셋: DOM 업데이트 후 실행해 브라우저 scroll anchoring 우회
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [selectedRole]);
+
   const handleRoleChange = useCallback(
     (role: WorkerRole | "ALL") => {
       setSelectedRole(role);
-      if (scrollRef.current) scrollRef.current.scrollTop = 0;
 
       if (replaceTimerRef.current) clearTimeout(replaceTimerRef.current);
       replaceTimerRef.current = setTimeout(() => {
