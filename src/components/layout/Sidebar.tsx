@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { href: "/orders", label: "주문 관리", icon: "📦" },
   { href: "/workers", label: "작업자 실적", icon: "👷" },
   { href: "/inventory", label: "재고 현황", icon: "🏭" },
+  { href: "/purchase-orders", label: "발주 관리", icon: "🛒" },
+  { href: "/zones", label: "권역 배송", icon: "🗺" },
 ];
 
 export function Sidebar() {
