@@ -92,7 +92,12 @@ const visibleOrders = filteredOrders.slice(startIndex, startIndex + VISIBLE_COUN
 ```ts
 // 필터 상태를 URL query string에 동기화 → 북마크·공유·뒤로가기 지원
 // 마운트 시 URL → 스토어, 탭 클릭 시 스토어 → URL 방향으로 단방향 동기화
-router.replace(`${pathname}?status=${status}`);
+// router.replace()는 150ms debounce: 스토어/스크롤은 즉시 반응하되
+// 연속 탭 클릭으로 인한 과도한 navigation history 누적을 방지
+if (replaceTimerRef.current) clearTimeout(replaceTimerRef.current);
+replaceTimerRef.current = setTimeout(() => {
+  router.replace(`${pathname}${query ? `?${query}` : ""}`);
+}, 150);
 ```
 
 ### Hydration Mismatch 방지
@@ -114,6 +119,9 @@ router.replace(`${pathname}?status=${status}`);
 // localStorage 기반 테마 설정 영속화
 // useDarkMode 훅에서 <html> 클래스 직접 조작 → Tailwind dark: variant 적용
 // SSR hydration mismatch 방지를 위해 마운트 후 토글 버튼 렌더링
+// isDark + mounted를 단일 상태 객체로 관리해 이중 렌더링 방지
+const [{ isDark, mounted }, setState] = useState({ isDark: false, mounted: false });
+setState({ isDark: dark, mounted: true }); // 한 번의 setState로 배치 업데이트
 ```
 
 ### CSV 내보내기
@@ -124,12 +132,16 @@ router.replace(`${pathname}?status=${status}`);
 
 ## 테스트
 
-Zustand 스토어 및 커스텀 훅에 대한 단위 테스트를 Vitest로 작성했습니다.
+Zustand 스토어 및 커스텀 훅에 대한 단위·통합 테스트를 Vitest로 작성했습니다.
 
+**단위 테스트**
 - `orderStore` — 주문 필터링, 요약 집계, polling 상태 관리
 - `workerStore` — 역할 필터, KPI(평균 달성률·처리 시간) 계산
 - `inventoryStore` — 재고 조회, 부족 항목 탐지
 - `usePolling` — 인터벌 시작/중지, 컴포넌트 언마운트 시 클리어
+
+**통합 테스트**
+- `orderStore ↔ toastStore` — 지연 주문 발생 시 pendingNotifications가 toastStore에 전달되는 흐름, 기존 DELAYED 주문 중복 알림 방지
 
 ## 로컬 실행
 
