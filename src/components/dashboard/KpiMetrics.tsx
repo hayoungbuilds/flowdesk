@@ -12,7 +12,7 @@ export function KpiMetrics() {
       title: "지연율",
       value: `${kpi.delayRate}%`,
       sub: kpi.delayRate > 10 ? "주의 필요" : "정상 범위",
-      color: kpi.delayRate > 10 ? "text-red-500" : "text-zinc-700",
+      color: kpi.delayRate > 10 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200",
       bar: { rate: kpi.delayRate, color: kpi.delayRate > 10 ? "bg-red-400" : "bg-green-400" },
     },
     {
@@ -44,23 +44,23 @@ export function KpiMetrics() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {metrics.map((m) => (
-        <Card key={m.title} className="border-0 shadow-sm bg-white">
+        <Card key={m.title} className="border-0 shadow-sm bg-white dark:bg-zinc-900">
           <CardHeader className="pb-1 pt-4 px-4">
-            <CardTitle className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+            <CardTitle className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
               {m.title}
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 space-y-2">
             <div className={`text-3xl font-bold ${m.color}`}>{m.value}</div>
             {m.bar && (
-              <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden">
+              <div className="h-1.5 w-full bg-zinc-100 dark:bg-zinc-700 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${m.bar.color}`}
                   style={{ width: `${m.bar.rate}%` }}
                 />
               </div>
             )}
-            <div className="text-xs text-zinc-400">{m.sub}</div>
+            <div className="text-xs text-zinc-400 dark:text-zinc-500">{m.sub}</div>
           </CardContent>
         </Card>
       ))}

@@ -127,4 +127,12 @@
   html {
     @apply font-sans;
   }
+
+  /* 다크모드 스크롤바 */
+  .dark * {
+    scrollbar-color: #52525b #27272a;
+  }
+  * {
+    scrollbar-width: thin;
+  }
 }

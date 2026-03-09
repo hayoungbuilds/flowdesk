@@ -25,7 +25,7 @@ export function CategoryBarChart() {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-semibold text-zinc-700">
+        <CardTitle className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
           카테고리별 재고 현황
         </CardTitle>
       </CardHeader>
