@@ -1,5 +1,7 @@
 # FlowDesk — 실시간 물류 운영 어드민
 
+**[flowdesk-beryl.vercel.app](https://flowdesk-beryl.vercel.app)**
+
 실시간 주문 흐름을 한눈에 파악하는 물류 운영 대시보드 포트폴리오 프로젝트입니다.
 입고 → 피킹 → 패킹 → 출고 → 배송완료 흐름을 시각화하고, 작업자 실적과 재고 현황을 통합 관리합니다.
 
