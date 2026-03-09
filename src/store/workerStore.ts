@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Worker, WorkerRole, WorkerStatus, HourlyPerformance } from "@/types";
+import { Worker, WorkerRole, HourlyPerformance } from "@/types";
 import { generateWorkers, generateHourlyPerformance } from "@/lib/mock/workers";
 
 interface WorkerStore {
@@ -32,6 +32,10 @@ export const useWorkerStore = create<WorkerStore>((set, get) => ({
 
   getKpi: () => {
     const { workers } = get();
+    if (workers.length === 0) {
+      return { total: 0, active: 0, avgAchievementRate: 0, avgTimeSeconds: 0 };
+    }
+
     const active = workers.filter((w) => w.status === "ACTIVE").length;
 
     // 작업자별 달성률을 평균 내어 전체 목표 달성률 산출
