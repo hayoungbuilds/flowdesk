@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useOrderStore } from "@/store/orderStore";
 import { usePolling } from "@/hooks/usePolling";
 import { useDarkMode } from "@/hooks/useDarkMode";
+import { GlobalSearchTrigger } from "./GlobalSearch";
+import { NotificationBell } from "./NotificationPanel";
 
 export function Header({ title }: { title: string }) {
   const lastUpdated = useOrderStore((s) => s.lastUpdated);
@@ -21,12 +23,21 @@ export function Header({ title }: { title: string }) {
     : "-";
 
   return (
-    <header className="h-14 border-b bg-white dark:bg-zinc-900 dark:border-zinc-700 flex items-center justify-between px-6">
+    <header className="h-14 border-b bg-white dark:bg-zinc-900 dark:border-zinc-700 flex items-center justify-between px-6 shrink-0">
       <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">{title}</h2>
-      <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
-        <span className="hidden sm:inline">마지막 업데이트: {formattedTime}</span>
 
-        {/* 다크모드 토글 — 마운트 전에는 렌더 안 함 (hydration mismatch 방지) */}
+      <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+        {/* 글로벌 검색 */}
+        <GlobalSearchTrigger />
+
+        <span className="hidden md:inline text-xs text-zinc-400 dark:text-zinc-600 ml-1">
+          마지막 업데이트: {formattedTime}
+        </span>
+
+        {/* 알림 센터 */}
+        <NotificationBell />
+
+        {/* 다크모드 토글 */}
         {darkMounted && (
           <button
             onClick={toggleDark}
