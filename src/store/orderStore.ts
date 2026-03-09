@@ -2,18 +2,25 @@ import { create } from "zustand";
 import { Order, OrderStatus, OrderSummary, HourlyData } from "@/types";
 import { generateOrders, generateHourlyData } from "@/lib/mock/orders";
 
+export interface DelayedNotification {
+  orderId: string;
+  customerName: string;
+}
+
 interface OrderStore {
   orders: Order[];
   hourlyData: HourlyData[];
   selectedStatus: OrderStatus | "ALL";
   isPolling: boolean;
   lastUpdated: Date | null;
+  pendingNotifications: DelayedNotification[];
 
   // actions
   setSelectedStatus: (status: OrderStatus | "ALL") => void;
   refreshOrders: () => void;
   startPolling: () => void;
   stopPolling: () => void;
+  clearPendingNotifications: () => void;
 
   // computed (selectors)
   getFilteredOrders: () => Order[];
@@ -33,8 +40,10 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   selectedStatus: "ALL",
   isPolling: false,
   lastUpdated: new Date(),
+  pendingNotifications: [],
 
   setSelectedStatus: (status) => set({ selectedStatus: status }),
+  clearPendingNotifications: () => set({ pendingNotifications: [] }),
 
   refreshOrders: () => {
     // 실시간 업데이트 시뮬레이션: 일부 주문 상태 무작위 변경
@@ -48,6 +57,10 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
     };
 
     set((state) => {
+      const prevDelayedIds = new Set(
+        state.orders.filter((o) => o.status === "DELAYED").map((o) => o.id)
+      );
+
       const updated = state.orders.map((order) => {
         if (Math.random() < 0.05) {
           return {
@@ -56,8 +69,20 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
             updatedAt: new Date().toISOString(),
           };
         }
+        // 피킹/패킹 중 일부를 DELAYED로 전환 (1% 확률)
+        if (
+          (order.status === "PICKING" || order.status === "PACKING") &&
+          Math.random() < 0.01
+        ) {
+          return { ...order, status: "DELAYED" as OrderStatus, updatedAt: new Date().toISOString() };
+        }
         return order;
       });
+
+      // 새로 DELAYED가 된 주문만 추출 (기존에 DELAYED였던 건 제외)
+      const newlyDelayed: DelayedNotification[] = updated
+        .filter((o) => o.status === "DELAYED" && !prevDelayedIds.has(o.id))
+        .map((o) => ({ orderId: o.id, customerName: o.customerName }));
 
       // 새 주문 1~3개 추가
       const newCount = Math.floor(Math.random() * 3) + 1;
@@ -74,6 +99,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       return {
         orders: combined.length > 500 ? combined.slice(0, 500) : combined,
         lastUpdated: new Date(),
+        pendingNotifications: newlyDelayed,
       };
     });
   },
