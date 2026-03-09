@@ -18,7 +18,10 @@ export function StatusPieChart() {
   const getStatusCounts = useOrderStore((s) => s.getStatusCounts);
   const orders = useOrderStore((s) => s.orders);
 
-  const data = useMemo(() => getStatusCounts(), [getStatusCounts, orders]);
+  // orders 변경 시 재계산 트리거 — getStatusCounts는 Zustand get()으로 최신 state를 읽음
+  // 배열 반환이므로 useShallow 대신 useMemo 사용 (객체 참조 비교 불가)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data = useMemo(() => getStatusCounts(), [orders]);
 
   return (
     <Card className="border-0 shadow-sm">

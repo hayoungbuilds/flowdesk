@@ -9,7 +9,9 @@ export function LowStockAlert() {
   const getLowStockItems = useInventoryStore((s) => s.getLowStockItems);
   const items = useInventoryStore((s) => s.items);
 
-  const lowStock = useMemo(() => getLowStockItems(), [getLowStockItems, items]);
+  // items 변경 시 재계산 트리거 — 배열 반환이므로 useShallow 대신 useMemo 사용
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const lowStock = useMemo(() => getLowStockItems(), [items]);
 
   return (
     <Card className="border-0 shadow-sm">

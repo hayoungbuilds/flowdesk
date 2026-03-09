@@ -1,14 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
+import { useShallow } from "zustand/shallow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useOrderStore } from "@/store/orderStore";
 
 export function SummaryCards() {
-  const getSummary = useOrderStore((s) => s.getSummary);
-  const orders = useOrderStore((s) => s.orders);
-
-  const summary = useMemo(() => getSummary(), [getSummary, orders]);
+  // useShallow: orders 변경 시에만 재렌더 (shallow equality로 불필요한 렌더 방지)
+  const summary = useOrderStore(useShallow((s) => s.getSummary()));
 
   const cards = [
     {

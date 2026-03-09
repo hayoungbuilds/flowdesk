@@ -1,14 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useShallow } from "zustand/shallow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWorkerStore } from "@/store/workerStore";
 
 export function WorkerKpiCards() {
-  const getKpi = useWorkerStore((s) => s.getKpi);
-  const workers = useWorkerStore((s) => s.workers);
-
-  const kpi = useMemo(() => getKpi(), [getKpi, workers]);
+  const kpi = useWorkerStore(useShallow((s) => s.getKpi()));
 
   const cards = [
     {

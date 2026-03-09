@@ -9,6 +9,8 @@ export function Header({ title }: { title: string }) {
   const { isPolling, startPolling, stopPolling } = usePolling(5000);
   const [mounted, setMounted] = useState(false);
 
+  // SSR hydration mismatch 방지를 위한 패턴 — Date.toLocaleTimeString()은 서버/클라이언트 결과가 다름
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   // 마운트 전에는 시각 표시 안 함 (SSR hydration mismatch 방지)
