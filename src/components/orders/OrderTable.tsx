@@ -43,6 +43,7 @@ export function OrderTable() {
   const [scrollTop, setScrollTop] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const replaceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // URL → 스토어 동기화: 마운트 시 URL의 status 파라미터를 스토어에 반영
   useEffect(() => {
@@ -55,20 +56,25 @@ export function OrderTable() {
   }, []);
 
   // 스토어 → URL 동기화: 필터 변경 시 URL도 함께 업데이트 (북마크·공유 가능)
+  // router.replace는 debounce 처리해 연속 탭 클릭 시 과도한 navigation 방지
   const handleStatusChange = useCallback(
     (status: OrderStatus | "ALL") => {
       setSelectedStatus(status);
       // 탭 전환 시 스크롤 처음으로 초기화
       setScrollTop(0);
       if (scrollRef.current) scrollRef.current.scrollTop = 0;
-      const params = new URLSearchParams(searchParams.toString());
-      if (status === "ALL") {
-        params.delete("status");
-      } else {
-        params.set("status", status);
-      }
-      const query = params.toString();
-      router.replace(`${pathname}${query ? `?${query}` : ""}`);
+
+      if (replaceTimerRef.current) clearTimeout(replaceTimerRef.current);
+      replaceTimerRef.current = setTimeout(() => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (status === "ALL") {
+          params.delete("status");
+        } else {
+          params.set("status", status);
+        }
+        const query = params.toString();
+        router.replace(`${pathname}${query ? `?${query}` : ""}`);
+      }, 150);
     },
     [searchParams, pathname, router, setSelectedStatus]
   );

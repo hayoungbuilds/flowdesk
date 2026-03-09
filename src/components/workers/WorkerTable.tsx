@@ -63,6 +63,7 @@ export function WorkerTable() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const replaceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const roleParam = searchParams.get("role");
@@ -76,14 +77,18 @@ export function WorkerTable() {
     (role: WorkerRole | "ALL") => {
       setSelectedRole(role);
       if (scrollRef.current) scrollRef.current.scrollTop = 0;
-      const params = new URLSearchParams(searchParams.toString());
-      if (role === "ALL") {
-        params.delete("role");
-      } else {
-        params.set("role", role);
-      }
-      const query = params.toString();
-      router.replace(`${pathname}${query ? `?${query}` : ""}`);
+
+      if (replaceTimerRef.current) clearTimeout(replaceTimerRef.current);
+      replaceTimerRef.current = setTimeout(() => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (role === "ALL") {
+          params.delete("role");
+        } else {
+          params.set("role", role);
+        }
+        const query = params.toString();
+        router.replace(`${pathname}${query ? `?${query}` : ""}`);
+      }, 150);
     },
     [searchParams, pathname, router, setSelectedRole]
   );
