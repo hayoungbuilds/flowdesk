@@ -158,26 +158,25 @@ export function InboundTable() {
       </div>
 
       <div
-        role="row"
-        className="grid grid-cols-[140px_100px_1fr_90px_90px_90px_100px_140px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
-      >
-        <span role="columnheader">입고ID</span>
-        <span role="columnheader">공급사</span>
-        <span role="columnheader">상품명</span>
-        <span role="columnheader">카테고리</span>
-        <span role="columnheader">예정수량</span>
-        <span role="columnheader">입고수량</span>
-        <span role="columnheader">상태</span>
-        <span role="columnheader">예정일</span>
-      </div>
-
-      <div
         ref={scrollRef}
         role="grid"
         aria-label="입고 목록"
         aria-rowcount={filtered.length}
         className="flex-1 min-h-0 overflow-y-auto divide-y dark:divide-zinc-800"
       >
+        <div
+          role="row"
+          className="sticky top-0 z-10 grid grid-cols-[140px_100px_1fr_90px_90px_90px_100px_140px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
+        >
+          <span role="columnheader">입고ID</span>
+          <span role="columnheader">공급사</span>
+          <span role="columnheader">상품명</span>
+          <span role="columnheader">카테고리</span>
+          <span role="columnheader">예정수량</span>
+          <span role="columnheader">입고수량</span>
+          <span role="columnheader">상태</span>
+          <span role="columnheader">예정일</span>
+        </div>
         {filtered.map((item, i) => (
           <InboundRow key={item.id} item={item} rowIndex={i + 1} />
         ))}
@@ -197,7 +196,7 @@ function InboundRow({ item, rowIndex }: { item: InboundItem; rowIndex: number })
     <div
       role="row"
       aria-rowindex={rowIndex}
-      className="grid grid-cols-[140px_100px_1fr_90px_90px_90px_100px_140px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+      className="grid grid-cols-[140px_100px_1fr_90px_90px_90px_100px_140px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
     >
       <span role="gridcell" className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
         {item.id}

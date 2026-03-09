@@ -143,21 +143,20 @@ export function TrunkTable() {
         </div>
       </div>
 
-      {/* 헤더 */}
-      <div className="grid grid-cols-[120px_100px_100px_90px_110px_70px_90px_80px_80px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
-        <span>간선ID</span>
-        <span>출발허브</span>
-        <span>도착허브</span>
-        <span>기사명</span>
-        <span>차량번호</span>
-        <span>화물 수</span>
-        <span>상태</span>
-        <span>출발시간</span>
-        <span>도착예정</span>
-      </div>
-
       {/* 행 */}
       <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-96 overflow-y-auto">
+        {/* 헤더 */}
+        <div className="sticky top-0 z-10 grid grid-cols-[120px_100px_100px_90px_110px_70px_90px_80px_80px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
+          <span>간선ID</span>
+          <span>출발허브</span>
+          <span>도착허브</span>
+          <span>기사명</span>
+          <span>차량번호</span>
+          <span>화물 수</span>
+          <span>상태</span>
+          <span>출발시간</span>
+          <span>도착예정</span>
+        </div>
         {filtered.map((r) => (
           <TrunkRow key={r.id} route={r} />
         ))}
@@ -173,7 +172,7 @@ export function TrunkTable() {
 
 function TrunkRow({ route: r }: { route: TrunkRoute }) {
   return (
-    <div className="grid grid-cols-[120px_100px_100px_90px_110px_70px_90px_80px_80px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+    <div className="grid grid-cols-[120px_100px_100px_90px_110px_70px_90px_80px_80px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{r.id}</span>
       <span className="text-zinc-700 dark:text-zinc-300 text-xs">{r.origin}</span>
       <span className="text-zinc-700 dark:text-zinc-300 text-xs">{r.destination}</span>

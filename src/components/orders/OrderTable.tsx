@@ -163,7 +163,7 @@ export function OrderTable() {
         {/* 테이블 헤더 */}
         <div
           role="row"
-          className="grid grid-cols-[120px_1fr_1fr_60px_120px_160px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
+          className="grid grid-cols-[120px_1fr_1fr_60px_120px_160px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
         >
           <span role="columnheader">주문번호</span>
           <span role="columnheader">고객명</span>
@@ -235,7 +235,7 @@ const OrderRow = memo(function OrderRow({
       style={style}
       onClick={() => onClick(order)}
       onKeyDown={(e) => e.key === "Enter" && onClick(order)}
-      className="grid grid-cols-[120px_1fr_1fr_60px_120px_160px] items-center px-4 text-sm border-b dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+      className="grid grid-cols-[120px_1fr_1fr_60px_120px_160px] gap-x-3 items-center px-4 text-sm border-b dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
     >
       <span role="gridcell" className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{order.id}</span>
       <span role="gridcell" className="text-zinc-800 dark:text-zinc-200 truncate">{order.customerName}</span>

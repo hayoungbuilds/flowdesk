@@ -171,27 +171,26 @@ export function ReturnsTable() {
       </div>
 
       <div
-        role="row"
-        className="grid grid-cols-[130px_120px_80px_1fr_60px_90px_100px_110px_140px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
-      >
-        <span role="columnheader">반품ID</span>
-        <span role="columnheader">주문ID</span>
-        <span role="columnheader">고객명</span>
-        <span role="columnheader">상품명</span>
-        <span role="columnheader">수량</span>
-        <span role="columnheader">반품사유</span>
-        <span role="columnheader">상태</span>
-        <span role="columnheader">환불금액</span>
-        <span role="columnheader">접수일시</span>
-      </div>
-
-      <div
         ref={scrollRef}
         role="grid"
         aria-label="반품 목록"
         aria-rowcount={filtered.length}
         className="flex-1 min-h-0 overflow-y-auto divide-y dark:divide-zinc-800 max-h-96"
       >
+        <div
+          role="row"
+          className="sticky top-0 z-10 grid grid-cols-[130px_120px_80px_1fr_60px_90px_100px_110px_140px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
+        >
+          <span role="columnheader">반품ID</span>
+          <span role="columnheader">주문ID</span>
+          <span role="columnheader">고객명</span>
+          <span role="columnheader">상품명</span>
+          <span role="columnheader">수량</span>
+          <span role="columnheader">반품사유</span>
+          <span role="columnheader">상태</span>
+          <span role="columnheader">환불금액</span>
+          <span role="columnheader">접수일시</span>
+        </div>
         {filtered.map((item, i) => (
           <ReturnsRow key={item.id} item={item} rowIndex={i + 1} />
         ))}
@@ -211,7 +210,7 @@ function ReturnsRow({ item, rowIndex }: { item: ReturnItem; rowIndex: number }) 
     <div
       role="row"
       aria-rowindex={rowIndex}
-      className="grid grid-cols-[130px_120px_80px_1fr_60px_90px_100px_110px_140px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+      className="grid grid-cols-[130px_120px_80px_1fr_60px_90px_100px_110px_140px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
     >
       <span role="gridcell" className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
         {item.id}

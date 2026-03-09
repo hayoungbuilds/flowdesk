@@ -117,19 +117,18 @@ export function SettlementTable() {
         </div>
       </div>
 
-      {/* 헤더 */}
-      <div className="grid grid-cols-[110px_1fr_100px_80px_160px_110px_110px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
-        <span>정산 ID</span>
-        <span>공급사</span>
-        <span>정산 기간</span>
-        <span>품목 수</span>
-        <span>정산 금액</span>
-        <span>상태</span>
-        <span>정산 기한</span>
-      </div>
-
       {/* 행 */}
-      <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-[480px] overflow-y-auto">
+      <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-120 overflow-y-auto">
+        {/* 헤더 */}
+        <div className="sticky top-0 z-10 grid grid-cols-[110px_1fr_100px_80px_160px_110px_110px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
+          <span>정산 ID</span>
+          <span>공급사</span>
+          <span>정산 기간</span>
+          <span>품목 수</span>
+          <span>정산 금액</span>
+          <span>상태</span>
+          <span>정산 기한</span>
+        </div>
         {filtered.map((settlement) => (
           <SettlementRow key={settlement.id} settlement={settlement} />
         ))}
@@ -145,7 +144,7 @@ export function SettlementTable() {
 
 function SettlementRow({ settlement }: { settlement: Settlement }) {
   return (
-    <div className="grid grid-cols-[110px_1fr_100px_80px_160px_110px_110px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+    <div className="grid grid-cols-[110px_1fr_100px_80px_160px_110px_110px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{settlement.id}</span>
       <span className="text-zinc-700 dark:text-zinc-300 truncate">{settlement.supplier}</span>
       <span className="text-zinc-600 dark:text-zinc-400 text-xs">{settlement.period}</span>

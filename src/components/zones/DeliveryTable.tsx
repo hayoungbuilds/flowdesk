@@ -100,19 +100,18 @@ export function DeliveryTable() {
         </div>
       </div>
 
-      {/* 헤더 */}
-      <div className="grid grid-cols-[110px_110px_70px_100px_80px_90px_90px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
-        <span>배송번호</span>
-        <span>주문번호</span>
-        <span>권역</span>
-        <span>배송기사</span>
-        <span>상태</span>
-        <span>예정시각</span>
-        <span>완료시각</span>
-      </div>
-
       {/* 행 */}
       <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-95 overflow-y-auto">
+        {/* 헤더 */}
+        <div className="sticky top-0 z-10 grid grid-cols-[110px_110px_70px_100px_80px_90px_90px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
+          <span>배송번호</span>
+          <span>주문번호</span>
+          <span>권역</span>
+          <span>배송기사</span>
+          <span>상태</span>
+          <span>예정시각</span>
+          <span>완료시각</span>
+        </div>
         {filtered.map((d) => (
           <DeliveryRow key={d.id} delivery={d} />
         ))}
@@ -128,7 +127,7 @@ export function DeliveryTable() {
 
 function DeliveryRow({ delivery: d }: { delivery: Delivery }) {
   return (
-    <div className="grid grid-cols-[110px_110px_70px_100px_80px_90px_90px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+    <div className="grid grid-cols-[110px_110px_70px_100px_80px_90px_90px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{d.id}</span>
       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{d.orderId}</span>
       <span className="text-zinc-700 dark:text-zinc-300">{d.region}</span>

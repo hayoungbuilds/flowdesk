@@ -101,20 +101,19 @@ export function PurchaseOrderTable() {
         </div>
       </div>
 
-      {/* 헤더 */}
-      <div className="grid grid-cols-[100px_1fr_1fr_80px_100px_100px_120px_110px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
-        <span>발주번호</span>
-        <span>공급업체</span>
-        <span>상품명</span>
-        <span>카테고리</span>
-        <span>수량</span>
-        <span>단가</span>
-        <span>총액</span>
-        <span>상태</span>
-      </div>
-
       {/* 행 */}
       <div ref={scrollRef} className="divide-y dark:divide-zinc-800 max-h-100 overflow-y-auto">
+        {/* 헤더 */}
+        <div className="sticky top-0 z-10 grid grid-cols-[100px_1fr_1fr_80px_100px_100px_120px_110px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700">
+          <span>발주번호</span>
+          <span>공급업체</span>
+          <span>상품명</span>
+          <span>카테고리</span>
+          <span>수량</span>
+          <span>단가</span>
+          <span>총액</span>
+          <span>상태</span>
+        </div>
         {filtered.map((order) => (
           <PurchaseOrderRow key={order.id} order={order} />
         ))}
@@ -130,7 +129,7 @@ export function PurchaseOrderTable() {
 
 function PurchaseOrderRow({ order }: { order: PurchaseOrder }) {
   return (
-    <div className="grid grid-cols-[100px_1fr_1fr_80px_100px_100px_120px_110px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+    <div className="grid grid-cols-[100px_1fr_1fr_80px_100px_100px_120px_110px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
       <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{order.id}</span>
       <span className="text-zinc-700 dark:text-zinc-300 truncate">{order.supplier}</span>
       <div>
