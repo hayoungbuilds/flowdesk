@@ -156,20 +156,19 @@ export function WorkerTable() {
         </div>
       </div>
 
-      <div
-        role="row"
-        className="grid grid-cols-[180px_80px_100px_80px_120px_1fr_100px] text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
-      >
-        <span role="columnheader">작업자</span>
-        <span role="columnheader">역할</span>
-        <span role="columnheader">구역</span>
-        <span role="columnheader">상태</span>
-        <span role="columnheader">처리량 / 목표</span>
-        <span role="columnheader">달성률</span>
-        <span role="columnheader">평균 처리</span>
-      </div>
-
       <div ref={scrollRef} role="grid" aria-label="작업자 목록" aria-rowcount={filtered.length} className="flex-1 min-h-0 overflow-y-auto divide-y dark:divide-zinc-800">
+        <div
+          role="row"
+          className="sticky top-0 z-10 grid grid-cols-[180px_80px_100px_80px_120px_1fr_100px] gap-x-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide bg-zinc-50 dark:bg-zinc-800 px-4 py-3 border-b dark:border-zinc-700"
+        >
+          <span role="columnheader">작업자</span>
+          <span role="columnheader">역할</span>
+          <span role="columnheader">구역</span>
+          <span role="columnheader">상태</span>
+          <span role="columnheader">처리량 / 목표</span>
+          <span role="columnheader">달성률</span>
+          <span role="columnheader">평균 처리</span>
+        </div>
         {filtered.map((worker, i) => (
           <WorkerRow key={worker.id} worker={worker} rowIndex={i + 1} />
         ))}
@@ -184,7 +183,7 @@ function WorkerRow({ worker, rowIndex }: { worker: Worker; rowIndex: number }) {
     <div
       role="row"
       aria-rowindex={rowIndex}
-      className="grid grid-cols-[180px_80px_100px_80px_120px_1fr_100px] items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+      className="grid grid-cols-[180px_80px_100px_80px_120px_1fr_100px] gap-x-3 items-center px-4 py-3 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
     >
       <div role="gridcell">
         <div className="font-medium text-zinc-800 dark:text-zinc-200">{worker.name}</div>
