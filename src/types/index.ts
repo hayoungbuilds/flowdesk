@@ -66,3 +66,47 @@ export interface InventoryItem {
   threshold: number;
   location: string;
 }
+
+// ─── 발주(Purchase Order) ───────────────────────────────────────────────────
+
+export type PurchaseOrderStatus =
+  | "PENDING"     // 승인 대기
+  | "APPROVED"    // 승인 완료
+  | "RECEIVING"   // 입고 중
+  | "COMPLETED"   // 입고 완료
+  | "CANCELLED";  // 취소
+
+export interface PurchaseOrder {
+  id: string;
+  supplier: string;
+  productName: string;
+  category: InventoryCategory;
+  quantity: number;
+  unitPrice: number;
+  status: PurchaseOrderStatus;
+  orderedAt: string;
+  expectedAt: string;
+}
+
+// ─── 권역 배송 ──────────────────────────────────────────────────────────────
+
+export type ZoneRegion = "수도권" | "강원" | "충청" | "전라" | "경상" | "제주";
+export type DeliveryStatus = "PENDING" | "IN_TRANSIT" | "DELIVERED" | "FAILED";
+
+export interface Delivery {
+  id: string;
+  orderId: string;
+  region: ZoneRegion;
+  driverName: string;
+  status: DeliveryStatus;
+  scheduledAt: string;
+  deliveredAt?: string;
+}
+
+export interface ZoneStat {
+  region: ZoneRegion;
+  total: number;
+  delivered: number;
+  inTransit: number;
+  failed: number;
+}
