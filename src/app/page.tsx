@@ -4,6 +4,7 @@ import { SummaryCards } from "@/components/dashboard/SummaryCards";
 import { KpiMetrics } from "@/components/dashboard/KpiMetrics";
 import { HourlyLineChart } from "@/components/dashboard/HourlyLineChart";
 import { StatusPieChart } from "@/components/dashboard/StatusPieChart";
+import { WorkloadHeatmap } from "@/components/dashboard/WorkloadHeatmap";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 
 export default function DashboardPage() {
@@ -20,6 +21,7 @@ export default function DashboardPage() {
             </div>
             <StatusPieChart />
           </div>
+          <WorkloadHeatmap />
         </ClientOnly>
       </div>
     </>
