@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${geist.variable} antialiased bg-zinc-50`}>
-        <div className="flex min-h-screen">
+        <div className="flex h-screen overflow-hidden">
           <Sidebar />
           <main className="flex-1 flex flex-col overflow-hidden">{children}</main>
         </div>

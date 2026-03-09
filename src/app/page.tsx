@@ -10,7 +10,7 @@ export default function DashboardPage() {
   return (
     <>
       <Header title="대시보드" />
-      <div className="flex-1 overflow-auto p-6 space-y-4">
+      <div className="flex-1 min-h-0 overflow-auto p-6 space-y-4">
         <ClientOnly fallback={<DashboardSkeleton />}>
           <SummaryCards />
           <KpiMetrics />

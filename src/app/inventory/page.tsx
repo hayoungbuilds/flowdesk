@@ -8,7 +8,7 @@ export default function InventoryPage() {
   return (
     <>
       <Header title="재고 현황" />
-      <div className="flex-1 overflow-auto p-6">
+      <div className="flex-1 min-h-0 overflow-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <ClientOnly fallback={<InventorySkeleton />}>
             <div className="lg:col-span-2">
