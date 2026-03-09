@@ -19,6 +19,12 @@ interface OrderStore {
   getFilteredOrders: () => Order[];
   getSummary: () => OrderSummary;
   getStatusCounts: () => { name: string; value: number }[];
+  getKpiMetrics: () => {
+    delayRate: number;         // 지연율 (%)
+    completionRate: number;    // 완료율 (%)
+    avgProcessingMin: number;  // 평균 처리 시간 (분, 접수→완료)
+    dailyGoalRate: number;     // 일일 목표 달성률 (목표: 완료 300건)
+  };
 }
 
 export const useOrderStore = create<OrderStore>((set, get) => ({
@@ -118,5 +124,34 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       name: labels[s],
       value: counts[s]!,
     }));
+  },
+
+  getKpiMetrics: () => {
+    const { orders } = get();
+    const total = orders.length;
+    if (total === 0) return { delayRate: 0, completionRate: 0, avgProcessingMin: 0, dailyGoalRate: 0 };
+
+    const delivered = orders.filter((o) => o.status === "DELIVERED");
+    const delayed = orders.filter((o) => o.status === "DELAYED");
+
+    // 완료된 주문의 createdAt → updatedAt 평균 처리 시간(분)
+    const avgProcessingMin =
+      delivered.length > 0
+        ? Math.round(
+            delivered.reduce((sum, o) => {
+              const diffMs =
+                new Date(o.updatedAt).getTime() - new Date(o.createdAt).getTime();
+              return sum + diffMs / 1000 / 60;
+            }, 0) / delivered.length
+          )
+        : 0;
+
+    return {
+      delayRate: Math.round((delayed.length / total) * 100),
+      completionRate: Math.round((delivered.length / total) * 100),
+      avgProcessingMin,
+      // 일일 목표: 완료 300건
+      dailyGoalRate: Math.min(Math.round((delivered.length / 300) * 100), 100),
+    };
   },
 }));
